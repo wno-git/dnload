@@ -61,6 +61,9 @@ class GlslBlockFunction(GlslBlock):
 def glsl_parse_function(source):
     """Parse function block."""
     (typeid, name, param_scope, content) = extract_tokens(source, ("?t", "?n", "?("))
+    if not typeid:
+        # return type can be a struct
+        (typeid, name, param_scope, content) = extract_tokens(source, ("?n", "?n", "?("))
     if (not typeid) or (not name) or (param_scope is None):
         return (None, source)
     parameters = glsl_parse_parameter_list(param_scope)
