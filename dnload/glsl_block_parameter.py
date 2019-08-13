@@ -47,6 +47,8 @@ def glsl_parse_parameter(source):
         if not inout:
             (typeid, content) = extract_tokens(source, ("?t"))
             if not typeid:
+                (typeid, content) = extract_tokens(source, ("?n"))
+            if not typeid:
                 return (None, source)
     (assignment, remaining) = glsl_parse_assignment(content, False)
     if not assignment:
