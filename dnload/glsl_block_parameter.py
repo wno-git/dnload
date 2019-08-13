@@ -43,9 +43,11 @@ def glsl_parse_parameter(source):
     """Parse parameter block."""
     (inout, typeid, content) = extract_tokens(source, ("?o", "?t"))
     if not inout:
-        (typeid, content) = extract_tokens(source, ("?t"))
-        if not typeid:
-            return (None, source)
+        (inout, typeid, content) = extract_tokens(source, ("?o", "?n"))
+        if not inout:
+            (typeid, content) = extract_tokens(source, ("?t"))
+            if not typeid:
+                return (None, source)
     (assignment, remaining) = glsl_parse_assignment(content, False)
     if not assignment:
         raise RuntimeError("could not parse assignment from '%s'" % (str(map(str, content))))
