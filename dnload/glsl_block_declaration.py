@@ -72,6 +72,8 @@ def glsl_parse_declaration(source):
     """Parse declaration block."""
     (typeid, content) = extract_tokens(source, ("?t",))
     if not typeid:
+        (typeid, content) = extract_tokens(source, ("?n",))
+    if not typeid or typeid == "return":
         return (None, source)
     # Loop until nothing found.
     lst = []
