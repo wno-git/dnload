@@ -18,14 +18,15 @@ class GlslBlockStruct(GlslBlock):
         self.__size = size
         self.__member_accesses = []
         # Hierarchy.
-        name.setType(type_name)
-        self.addNamesDeclared(name)
-        self.addNamesUsed(name)
+        if name:
+            name.setType(type_name)
+            self.addNamesDeclared(name)
+            self.addNamesUsed(name)
 
     def format(self, force):
         """Return formatted output."""
         lst = "".join(map(lambda x: x.format(force), self.__members))
-        ret = ("struct %s{%s}" % (self.__type_name.format(force), lst, self.__name.format(force)))
+        ret = ("struct %s{%s}" % (self.__type_name.format(force), lst))
         if self.__name:
             ret += self.__name.format(force)
         if self.__size:
