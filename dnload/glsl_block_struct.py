@@ -55,7 +55,7 @@ class GlslBlockStruct(GlslBlock):
 
     def __str__(self):
         """String representation."""
-        return "Struct(%i)" % (len(self.__content))
+        return "Struct('%s')" % (self.__type_name.getName())
 
 ########################################
 # Functions ############################

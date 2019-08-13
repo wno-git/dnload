@@ -61,7 +61,7 @@ class GlslNameStrip:
         for kk in uses.keys():
             name_list = uses[kk]
             if 1 >= len(name_list):
-                print("WARNING: member '%s' of '%s' not accessed" % (name_list[0].getName(), str(block)))
+                print("WARNING: member '%s' of '%s' not accessed" % (name_list[0].getName(), str(self.getBlock())))
             typeid = name_list[0].getType()
             if not typeid:
                 raise RuntimeError("name '%s' has no type" % (name_list[0]))
