@@ -9,17 +9,22 @@ from dnload.glsl_block import extract_tokens
 class GlslBlockMember(GlslBlock):
     """Member block."""
 
-    def __init__(self, typeid, name):
+    def __init__(self, typeid, name, size=None):
         """Constructor."""
         GlslBlock.__init__(self)
         self.__typeid = typeid
         self.__name = name
+        self.__size = size
         # Hierarchy.
         name.setType(typeid)
         self.addNamesUsed(name)
 
     def format(self, force):
         """Return formatted output."""
+        if self.__size:
+            return "%s %s[%s];" % (self.__typeid.format(force),
+                                   self.__name.format(force),
+                                   self.__size.format(force))
         return "%s %s;" % (self.__typeid.format(force), self.__name.format(force))
 
     def getName(self):
@@ -48,6 +53,11 @@ class GlslBlockMember(GlslBlock):
 
 def glsl_parse_member(source):
     """Parse member block."""
+    (typeid, name, size, remaining) = extract_tokens(source, ("?t", "?n", "[", "?i", "]", ";"))
+    if not typeid:  # struct?
+        (typeid, name, size, remaining) = extract_tokens(source, ("?n", "?n", "[", "?i", "]", ";"))
+    if typeid:
+        return (GlslBlockMember(typeid, name, size), remaining)
     (typeid, name, remaining) = extract_tokens(source, ("?t", "?n", ";"))
     if not typeid:
         (typeid, name, remaining) = extract_tokens(source, ("?n", "?n", ";"))
