@@ -50,6 +50,8 @@ def glsl_parse_member(source):
     """Parse member block."""
     (typeid, name, remaining) = extract_tokens(source, ("?t", "?n", ";"))
     if not typeid:
+        (typeid, name, remaining) = extract_tokens(source, ("?n", "?n", ";"))
+    if not typeid:
         return (None, source)
     return (GlslBlockMember(typeid, name), remaining)
 
